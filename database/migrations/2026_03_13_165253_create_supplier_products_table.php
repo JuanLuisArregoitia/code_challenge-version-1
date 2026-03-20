@@ -14,6 +14,9 @@ return new class extends Migration
         Schema::create('supplier_products', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
+            $table->foreignId("product_id")->references("id")->on("products");
+            $table->foreignId("supply_id")->references("id")->on("suppliers");
+            $table->softDeletes();
         });
     }
 

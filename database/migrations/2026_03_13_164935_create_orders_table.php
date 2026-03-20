@@ -14,6 +14,10 @@ return new class extends Migration
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
+            $table->string("order_number");
+            $table->INT("status_id");
+            $table->foreignId("clients_id")->references("id")->on("clients");
+            $table->softDeletes();
         });
     }
 
