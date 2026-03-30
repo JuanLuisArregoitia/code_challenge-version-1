@@ -2,64 +2,45 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\supplier;
-use Illuminate\Http\Request;
+use App\Http\Requests\SupplierRequest;
+use App\Models\Supplier;
+use App\Services\SupplierService;
+use Illuminate\Http\JsonResponse;
 
 class SupplierController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function __construct(
+        protected SupplierService $service
+    ) {}
+
+    public function index(): JsonResponse
     {
-        //
+        return response()->json(['data' => $this->service->getAll()]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function store(SupplierRequest $request): JsonResponse
     {
-        //
+        $supplier = $this->service->create($request->validated());
+
+        return response()->json(['data' => $supplier], 201);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function show(Supplier $supplier): JsonResponse
     {
-        //
+        return response()->json(['data' => $supplier]);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(supplier $supplier)
+    public function update(SupplierRequest $request, Supplier $supplier): JsonResponse
     {
-        //
+        $supplier = $this->service->update($supplier, $request->validated());
+
+        return response()->json(['data' => $supplier]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(supplier $supplier)
+    public function destroy(Supplier $supplier): JsonResponse
     {
-        //
-    }
+        $this->service->delete($supplier);
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, supplier $supplier)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(supplier $supplier)
-    {
-        //
+        return response()->json(['message' => 'Supplier deleted successfully.']);
     }
 }

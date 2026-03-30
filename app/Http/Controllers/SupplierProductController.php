@@ -2,64 +2,47 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\supplier_product;
-use Illuminate\Http\Request;
+use App\Http\Requests\SupplierProductRequest;
+use App\Models\SupplierProduct;
+use App\Services\SupplierProductService;
+use Illuminate\Http\JsonResponse;
 
 class SupplierProductController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function __construct(
+        protected SupplierProductService $service
+    ) {}
+
+    public function index(): JsonResponse
     {
-        //
+        return response()->json(['data' => $this->service->getAll()]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function store(SupplierProductRequest $request): JsonResponse
     {
-        //
+        $supplierProduct = $this->service->create($request->validated());
+
+        return response()->json(['data' => $supplierProduct], 201);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function show(SupplierProduct $supplierProduct): JsonResponse
     {
-        //
+        $supplierProduct->load(['supplier', 'product']);
+
+        return response()->json(['data' => $supplierProduct]);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(supplier_product $supplier_product)
+    public function update(SupplierProductRequest $request, SupplierProduct $supplierProduct): JsonResponse
     {
-        //
+        $supplierProduct = $this->service->update($supplierProduct, $request->validated());
+
+        return response()->json(['data' => $supplierProduct]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(supplier_product $supplier_product)
+    public function destroy(SupplierProduct $supplierProduct): JsonResponse
     {
-        //
-    }
+        $this->service->delete($supplierProduct);
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, supplier_product $supplier_product)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(supplier_product $supplier_product)
-    {
-        //
+        return response()->json(['message' => 'Supplier product deleted successfully.']);
     }
 }
