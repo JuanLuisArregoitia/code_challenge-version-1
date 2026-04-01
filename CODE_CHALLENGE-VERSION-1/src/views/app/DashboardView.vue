@@ -49,12 +49,23 @@ onMounted(async () => {
     <p v-if="errorMessage" class="feedback feedback--error">{{ errorMessage }}</p>
 
     <section class="dashboard-grid">
-      <article v-for="card in cards" :key="card.key" class="card resource-card">
-        <p class="eyebrow">{{ card.title }}</p>
-        <h3>{{ isLoading ? '...' : card.count }}</h3>
-        <p>{{ card.description }}</p>
-        <RouterLink class="button button--ghost" :to="{ name: card.key }">Open resource</RouterLink>
-      </article>
+      <template v-if="isLoading">
+        <article v-for="n in 6" :key="n" class="card resource-card skeleton-card">
+          <span class="skeleton skeleton--eyebrow"></span>
+          <span class="skeleton skeleton--heading"></span>
+          <span class="skeleton skeleton--text"></span>
+          <span class="skeleton skeleton--button"></span>
+        </article>
+      </template>
+
+      <template v-else>
+        <article v-for="card in cards" :key="card.key" class="card resource-card">
+          <p class="eyebrow">{{ card.title }}</p>
+          <h3>{{ card.count }}</h3>
+          <p>{{ card.description }}</p>
+          <RouterLink class="button button--ghost" :to="{ name: card.key }">Open resource</RouterLink>
+        </article>
+      </template>
     </section>
   </section>
 </template>
