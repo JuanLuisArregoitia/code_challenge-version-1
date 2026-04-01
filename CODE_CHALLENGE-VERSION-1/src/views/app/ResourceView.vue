@@ -223,7 +223,15 @@ watch(
               </tr>
             </thead>
             <tbody>
-              <tr v-if="!isLoading && !records.length">
+              <template v-if="isLoading">
+                <tr v-for="n in 5" :key="'skel-' + n">
+                  <td v-for="column in resource.columns" :key="column.label">
+                    <span class="skeleton skeleton--row"></span>
+                  </td>
+                  <td><span class="skeleton skeleton--row"></span></td>
+                </tr>
+              </template>
+              <tr v-else-if="!records.length">
                 <td :colspan="resource.columns.length + 1" class="empty-row">
                   No {{ resource.title.toLowerCase() }} yet.
                 </td>
