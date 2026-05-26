@@ -19,3 +19,7 @@ yarn-error.log
 /.vscode
 
 CODE_CHALLENGE-VERSION-1/.vscode/settings.json
+
+composer.lock
+
+package-lock.json
