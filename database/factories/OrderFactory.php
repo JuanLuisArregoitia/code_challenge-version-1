@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use App\Models\Client;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Order>
@@ -17,7 +18,9 @@ class OrderFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'order_number' => 'ORD-' . fake()->unique()->numberBetween(1000, 9999),
+            'status_id' => fake()->numberBetween(1, 5),
+            'client_id' => Client::factory(),
         ];
     }
 }
