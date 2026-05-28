@@ -20,10 +20,13 @@ return new class extends Migration
             $table->softDeletes();
 
             $table->foreign('client_id')
-            ->references('id')
-            ->on('clients')
-            ->cascadeOnUpdate()
-            ->restrictOnDelete();
+                ->references('id')
+                ->on('clients')
+                ->cascadeOnUpdate()
+                ->restrictOnDelete();
+
+            $table->foreignId('status_id')
+                ->constrained('statuses');
         });
     }
 
