@@ -14,19 +14,18 @@ return new class extends Migration
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
             $table->string('order_number', 45);
-            $table->unsignedBigInteger('status_id');
-            $table->unsignedBigInteger('client_id');
             $table->timestamps();
             $table->softDeletes();
 
-            $table->foreign('client_id')
-                ->references('id')
-                ->on('clients')
+            $table->foreignId('client_id')
+                ->constrained('clients')
                 ->cascadeOnUpdate()
                 ->restrictOnDelete();
 
             $table->foreignId('status_id')
-                ->constrained('statuses');
+                ->constrained('statuses')
+                ->cascadeOnUpdate()
+                ->restrictOnDelete();
         });
     }
 
