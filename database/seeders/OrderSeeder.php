@@ -20,18 +20,6 @@ class OrderSeeder extends Seeder
             $order = Order::factory()->create([
                 'client_id' => $client->id,
             ]);
-
-            Product::inRandomOrder()
-                ->limit(fake()->numberBetween(1,5))
-                ->get()
-                ->each(function (Product $product) use ($order) {
-                    OrderDetail::factory()->create([
-                        'order_id' => $order->id,
-                        'product_id' => $product->id,
-                        'quantity' => fake()->numberBetween(1, 5),
-                        'price' => $product->price,
-                    ]);
-                });
         });       
     }
 }
