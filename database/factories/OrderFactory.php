@@ -19,7 +19,7 @@ class OrderFactory extends Factory
     {
         return [
             'order_number' => 'ORD-' . fake()->unique()->numberBetween(1000, 9999),
-            'status_id' => fake()->numberBetween(1, 5),
+            'status_id' => fake()->numberBetween(1, 6),
             'client_id' => Client::factory(),
         ];
     }
